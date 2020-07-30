@@ -1,5 +1,6 @@
 package org.example.test29.sql.low;
 
+import org.example.test29.sql.MyBlob;
 import org.example.test29.sql.SqlQuery;
 
 import java.io.*;
@@ -96,8 +97,45 @@ public class SqlQueryMsSql implements SqlQuery {
     }
 
     @Override
-    public void executeUpdate(String[] fields, Object[] data, Class classData) {
+    public void executeUpdate(String tab, String[] fields, Object[] data, Class[] classData) {
+        try {
+            //String pareStatement = "INSERT INTO Table_1(id_spec, ves, dis) VALUES (?, ?, ?)";
+            String pareStatement = "INSERT INTO " + tab + "(" + fields[0];
+            String pareStatementValue = ") VALUES (?";
+            for (int i = 1; i < fields.length; i++) {
+                pareStatement += ", " + fields[i];
+                pareStatementValue += ", ?";
+            }
+            pareStatement += pareStatementValue + ")";
+            PreparedStatement statement = connection.prepareStatement(pareStatement);
 
+            for (int i = 0; i < data.length; i++) {
+                String[] strings = classData[i].getName().split("\\.");
+                switch (classData[i].getName()) {
+                    case "int":
+                        statement.setInt(i + 1, (int) data[i]);
+                        break;
+                    case "byte":
+                        statement.setByte(i + 1, (byte) data[i]);
+                        break;
+                    case "[B":
+                        statement.setBytes(i + 1, (byte[]) data[i]);
+                        break;
+                    case "MyBlob":
+                        statement.setBlob(i + 1, (MyBlob) data[i]);
+                        break;
+                    case "Timestamp":
+                        statement.setTimestamp(i + 1, (Timestamp) data[i] );
+                        break;
+
+                }
+            }
+            statement.executeUpdate();
+            statement.close();
+
+        } catch (java.lang.Throwable e) {
+            e.printStackTrace();
+        }
     }
 
 

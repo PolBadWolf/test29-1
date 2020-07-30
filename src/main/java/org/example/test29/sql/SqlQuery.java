@@ -6,7 +6,7 @@ import java.util.Properties;
 public interface SqlQuery {
     void setDefaultParametrsSql(Parameters parametrsSql);
     ResultSet executeQuery(String stringQueue);
-    void executeUpdate(String[] fields, Object[] data, Class classData);
+    void executeUpdate(String tab, String[] fields, Object[] data, Class[] classData);
 
     class Parameters {
         public String urlServer;
