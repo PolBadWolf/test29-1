@@ -1,13 +1,21 @@
 package org.example.test29;
 
+import org.example.test29.sql.MyBlob;
+import org.example.test29.sql.SqlQuery;
+import org.example.test29.sql.low.SqlQueryMsSql;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 public class MainClass {
 
+    private SqlQuery sqlQuery = null;
+
     public static void main(String[] args) {
+        new Dop().start();
         new MainClass().start();
     }
 
@@ -27,6 +35,8 @@ public class MainClass {
 
     private void start() {
         System.out.println("start programm");
+
+        sqlQuery = new SqlQueryMsSql("z1.txt", t -> setDefaultParametersSql((SqlQuery.Parameters) t));
 
         Properties properties = new Properties();
         String connectionString;
@@ -128,4 +138,13 @@ public class MainClass {
         }
 
     }
+
+    private void setDefaultParametersSql(SqlQuery.Parameters parametrsSql) {
+        parametrsSql.urlServer = "127.0.0.1";
+        parametrsSql.portServer = "1433";
+        parametrsSql.database = "spc1";
+        parametrsSql.user = "max";
+        parametrsSql.password = "1122";
+    }
+
 }

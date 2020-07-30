@@ -1,6 +1,5 @@
-package org.example.test29;
+package org.example.test29.sql;
 
-import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 import java.io.*;
 import java.sql.Blob;
