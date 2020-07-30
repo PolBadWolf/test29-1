@@ -1,12 +1,17 @@
 package org.example.test29;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.function.Consumer;
 
 public class Dop {
     public void start() {
         mid(t -> pusk1((String) t));
         mid(t -> pusk2((String) t));
-        System.exit(0);
+        // ----
+        /*Class classInt = Integer.class;
+        ParameterizedType type = (ParameterizedType)classInt.getGenericSuperclass();
+        classInt.getName();*/
+        //System.exit(0);
     }
 
     void pusk1(String t) {

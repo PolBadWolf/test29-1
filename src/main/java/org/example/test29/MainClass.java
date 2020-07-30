@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.function.Consumer;
 
-public class MainClass implements SqlQuery {
+public class MainClass {
 
     private SqlQuery sqlQuery = null;
 
@@ -36,7 +36,7 @@ public class MainClass implements SqlQuery {
     private void start() {
         System.out.println("start programm");
 
-        sqlQuery = new SqlQueryMsSql("z1.txt", this);
+        sqlQuery = new SqlQueryMsSql("z1.txt", t -> setDefaultParametersSql((SqlQuery.Parameters) t));
 
         Properties properties = new Properties();
         String connectionString;
@@ -139,18 +139,12 @@ public class MainClass implements SqlQuery {
 
     }
 
-    @Override
-    public void setDefaultParametrsSql(Parameters parametrsSql) {
-        parametrsSql.urlServer = "";
+    private void setDefaultParametersSql(SqlQuery.Parameters parametrsSql) {
+        parametrsSql.urlServer = "127.0.0.1";
+        parametrsSql.portServer = "1433";
+        parametrsSql.database = "spc1";
+        parametrsSql.user = "max";
+        parametrsSql.password = "1122";
     }
 
-    @Override
-    public ResultSet executeQuery(String stringQueue) {
-        return null;
-    }
-
-    @Override
-    public void executeUpdate() {
-
-    }
 }

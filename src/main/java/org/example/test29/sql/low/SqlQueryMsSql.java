@@ -5,16 +5,17 @@ import org.example.test29.sql.SqlQuery;
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 public class SqlQueryMsSql implements SqlQuery {
     private String fileNamePropertys;
     private SqlQuery.Parameters parameters;
-    private SqlQuery delegate;
+    private Consumer callBackSetDefaultParameters;
     private Connection connection;
 
-    public SqlQueryMsSql(String fileNamePropertys, SqlQuery delegate) {
+    public SqlQueryMsSql(String fileNamePropertys, Consumer callBackSetDefaultParameters) {
         this.fileNamePropertys = fileNamePropertys;
-        this.delegate = delegate;
+        this.callBackSetDefaultParameters = callBackSetDefaultParameters;
 
         parameters = new SqlQuery.Parameters();
         loadParametersSql();
@@ -27,7 +28,7 @@ public class SqlQueryMsSql implements SqlQuery {
         try {
             properties.load(new BufferedReader(new FileReader(fileNamePropertys)));
             if (parameters.get(properties)) {
-                delegate.setDefaultParametrsSql(parameters);
+                callBackSetDefaultParameters.accept(parameters);
                 savePropertys();
             }
             return;
@@ -35,7 +36,7 @@ public class SqlQueryMsSql implements SqlQuery {
             //e.printStackTrace(); // файл отсутствует
             System.out.println("файл с параметрами подключения не найден");
         }
-        delegate.setDefaultParametrsSql(parameters);
+        callBackSetDefaultParameters.accept(parameters);
         parameters.set(properties);
         savePropertys();
     }
@@ -95,7 +96,7 @@ public class SqlQueryMsSql implements SqlQuery {
     }
 
     @Override
-    public void executeUpdate() {
+    public void executeUpdate(String[] fields, Object[] data, Class classData) {
 
     }
 
