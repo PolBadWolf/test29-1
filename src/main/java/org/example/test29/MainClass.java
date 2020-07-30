@@ -13,7 +13,6 @@ public class MainClass {
         System.out.println("start programm");
 
         try {
-//            String instanceName = "127.0.0.1\\SQLEX";
             String instanceName = "127.0.0.1\\SQLEX:1433";
             String databaseName = "spc1";
             String userName = "max";
