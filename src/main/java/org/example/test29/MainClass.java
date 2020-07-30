@@ -1,13 +1,21 @@
 package org.example.test29;
 
+import org.example.test29.sql.MyBlob;
+import org.example.test29.sql.SqlQuery;
+import org.example.test29.sql.low.SqlQueryMsSql;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.function.Consumer;
 
-public class MainClass {
+public class MainClass implements SqlQuery {
+
+    private SqlQuery sqlQuery = null;
 
     public static void main(String[] args) {
+        new Dop().start();
         new MainClass().start();
     }
 
@@ -27,6 +35,8 @@ public class MainClass {
 
     private void start() {
         System.out.println("start programm");
+
+        sqlQuery = new SqlQueryMsSql("z1.txt", this);
 
         Properties properties = new Properties();
         String connectionString;
@@ -126,6 +136,21 @@ public class MainClass {
         } catch (java.lang.Throwable e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void setDefaultParametrsSql(Parameters parametrsSql) {
+        parametrsSql.urlServer = "";
+    }
+
+    @Override
+    public ResultSet executeQuery(String stringQueue) {
+        return null;
+    }
+
+    @Override
+    public void executeUpdate() {
 
     }
 }
